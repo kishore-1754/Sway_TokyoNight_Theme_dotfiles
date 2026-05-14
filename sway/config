@@ -41,8 +41,8 @@ output eDP-1 scale 1.25
 ### Idle configuration
 #
  exec swayidle -w \
-          timeout 300 'swaylock -f -i ~/.config/sway/Images/LockScreen.jpg' \
-          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+          timeout 360 'swaylock -f -i ~/.config/sway/Images/LockScreen.jpg' \
+#          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
           before-sleep 'swaylock -f -i ~/.config/sway/Images/LockScreen.jpg'
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
@@ -228,7 +228,7 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # Shortcut to take a screen shot
-    bindsym Shift+Print exec grim -g "$(slurp)" ~/Pictures/screenshot-$(date +%s).png
+    bindsym Shift+F10 exec grim -g "$(slurp)" ~/Pictures/screenshot-$(date +%s).png
 
 # The windows
 
@@ -264,5 +264,12 @@ for_window [class=".*"] border pixel 2
 # Add key binds to move to previous and next work spaces
 bindsym $mod+Ctrl+Right workspace next
 bindsym $mod+Ctrl+Left workspace prev
+
+# Start ClipBoard service
+exec_always wl-paste --type text --watch cliphist store
+exec_always wl-paste --type image --watch cliphist store
+
+# Enable auto mount on login
+exec udiskie
 
 include '$(/usr/libexec/sway/layered-include "/usr/share/sway/config.d/*.conf" "/etc/sway/config.d/*.conf" "${XDG_CONFIG_HOME:-$HOME/.config}/sway/config.d/*.conf")'
